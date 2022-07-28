@@ -75,17 +75,28 @@ void ConfigureDefaultFont(ImFontAtlas* atlas)
 	char szWindowsPath[MAX_PATH] = { 0 };
 	if (::GetWindowsDirectoryA(szWindowsPath, MAX_PATH) != 0)
 	{
-		// console font: Lucida Console @ 13px
+		// console font: Lucida Console @ 13, 16px
 		std::error_code ec;
 
-		char szConsoleFont[MAX_PATH];
+		char szConsoleFont[MAX_PATH] = { 0 };
 		sprintf_s(szConsoleFont, "%s\\fonts\\lucon.ttf", szWindowsPath);
-
 		if (std::filesystem::is_regular_file(szConsoleFont, ec))
 		{
 			ImFontConfig consoleFontConfig;
 			consoleFontConfig.OversampleH = consoleFontConfig.OversampleV = 3;
 			ConsoleFont = atlas->AddFontFromFileTTF(szConsoleFont, 13.0f, &consoleFontConfig);
+			atlas->AddFontFromFileTTF(szConsoleFont, 16.0f, &consoleFontConfig);
+		}
+
+		szConsoleFont[MAX_PATH];
+		sprintf_s(szConsoleFont, "%s\\fonts\\consola.ttf", szWindowsPath);
+		if (std::filesystem::is_regular_file(szConsoleFont, ec))
+		{
+			// console font: consola @ 14, 17px
+			ImFontConfig consoleFontConfig;
+			consoleFontConfig.OversampleH = consoleFontConfig.OversampleV = 3;
+			atlas->AddFontFromFileTTF(szConsoleFont, 14.0f, &consoleFontConfig);
+			atlas->AddFontFromFileTTF(szConsoleFont, 17.0f, &consoleFontConfig);
 		}
 	}
 
