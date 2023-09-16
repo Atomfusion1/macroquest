@@ -1,0 +1,64 @@
+First Download https://git-scm.com/downloads Latest Release for windows 64bit  2.xx.x 
+Install .. Add select Windows cmd when given the option 
+Test Git in windows cmd 
+open cmd.exe 
+type: git version 
+Response: git version 2.XX.X.windows.X
+Download Visual Studio 2022 
+Select Workloads Desktop development with C++ 
+Select individual components Add Selection Check > MSVC v142 - VS2019++ x64/x86 build tools (v14.29-16.11)
+
+Next Create a New Folder in windows then Go to the directory in cmd
+Enter the following 
+git clone https://github.com/macroquest/macroquest.git
+cd macroquest
+git checkout emu
+git submodule update --init
+
+Open macroquest.sln into vs2022
+Do Not Retarget Projects 
+Click Cancel 
+
+
+you will see solution macroquest in the solutions explorer 
+then select release and win32 in the top bar 
+emu should be already selected in the bottom right next to macroquest 
+Hit Build .. This should take from 30-2 hours the first time as it has to download all the libraries 
+
+Now to add plugins 
+https://gitlab.com/redguides/plugins
+https://docs.macroquest.org/main/submodule-quick-list/
+
+in cmd goto ../macroquest/plugins 
+then you can paste all git submodule commands into cmd it will auto download all of them 
+then add the macroquestcustom.sln to the /macroquest folder and reopen with vs2022 
+this will build most (at this time All plugins may not compile for emu) 
+This will also take .5-2 hours to build .. mq2nav .... 
+netbots can be fixed by changing the two fault lines to 0 from // pString 
+then to build meshgenerator you must change Win32 to X64 and right click build mq2nav_meshgenerator 
+
+main plugins 
+mq2nav 
+mq2melee
+mq2cast
+mq2moveutils
+mq2eqbc
+mq2twist
+mq2advpath
+
+in EQ you will need to enable plugins 
+/plugins mq2XXXXXXX 
+
+
+cd contrib/vcpkg
+git checkout macroquest
+git pull
+vcpkg remove protobuf:x86-windows-static
+
+Lets updates open cmd goto /macroquest : 
+
+git pull --rebase --autostash
+git pull --recurse-submodules
+git submodule update 
+git stash pop
+
